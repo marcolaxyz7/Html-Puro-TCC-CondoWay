@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CondoWay - Apartamentos</title>
+  <link rel="stylesheet" href="styles2.css">
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    table th, table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    table th {
+      background: #f1f2f6;
+      font-weight: bold;
+      color: #2f3640;
+    }
+
+    /* Tooltip */
+    .ap-row {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .ap-details {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 280px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    .ap-row:hover .ap-details {
+      display: block;
+    }
+
+    .ap-details p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #2f3640;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>CondoWay</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="usuarios.html">Usuários</a></li>
+      <li><a href="apartamentos.html">Apartamentos</a></li>
+      <li><a href="reservas.html">Reservas</a></li>
+      <li><a href="visitantes.html">Visitantes</a></li>
+      <li><a href="encomendas.html">Encomendas</a></li>
+      <li><a href="notificacoes.html">Notificações</a></li>
+      <li><a href="mensagens.html">Mensagens</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Apartamentos</h1>
+      <div class="user-info">
+        <span>Síndico</span>
+        <img src="https://via.placeholder.com/35" alt="User">
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Gerenciamento de Apartamentos</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Bloco</th>
+            <th>Número</th>
+            <th>Andar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ap-row">
+            <td>101</td>
+            <td>A</td>
+            <td>12</td>
+            <td>1º</td>
+            <div class="ap-details">
+              <p><strong>ID:</strong> 101</p>
+              <p><strong>Bloco:</strong> A</p>
+              <p><strong>Número:</strong> 12</p>
+              <p><strong>Andar:</strong> 1º</p>
+            </div>
+          </tr>
+          <tr class="ap-row">
+            <td>102</td>
+            <td>B</td>
+            <td>34</td>
+            <td>3º</td>
+            <div class="ap-details">
+              <p><strong>ID:</strong> 102</p>
+              <p><strong>Bloco:</strong> B</p>
+              <p><strong>Número:</strong> 34</p>
+              <p><strong>Andar:</strong> 3º</p>
+            </div>
+          </tr>
+          <tr class="ap-row">
+            <td>103</td>
+            <td>C</td>
+            <td>21</td>
+            <td>2º</td>
+            <div class="ap-details">
+              <p><strong>ID:</strong> 103</p>
+              <p><strong>Bloco:</strong> C</p>
+              <p><strong>Número:</strong> 21</p>
+              <p><strong>Andar:</strong> 2º</p>
+            </div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

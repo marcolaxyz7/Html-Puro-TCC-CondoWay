@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CondoWay - Usuários</title>
+  <link rel="stylesheet" href="styles2.css">
+
+  <style>
+    /* Estilo da tabela */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    table th, table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    table th {
+      background: #f1f2f6;
+      font-weight: bold;
+      color: #2f3640;
+    }
+
+    /* Tooltip de detalhes */
+    .user-row {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .user-details {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 300px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    .user-row:hover .user-details {
+      display: block;
+    }
+
+    .user-details p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #2f3640;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>CondoWay</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="usuarios.html">Usuários</a></li>
+      <li><a href="apartamentos.html">Apartamentos</a></li>
+      <li><a href="reservas.html">Reservas</a></li>
+      <li><a href="visitantes.html">Visitantes</a></li>
+      <li><a href="encomendas.html">Encomendas</a></li>
+      <li><a href="notificacoes.html">Notificações</a></li>
+      <li><a href="mensagens.html">Mensagens</a></li>
+    </ul>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="header">
+      <h1>Usuários</h1>
+      <div class="user-info">
+        <span>Síndico</span>
+        <img src="https://via.placeholder.com/35" alt="User">
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Lista de Usuários</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="user-row">
+            <td>1</td>
+            <td>João Silva</td>
+            <td>joao@email.com</td>
+            <td>(11) 99999-9999</td>
+            <td>Morador</td>
+            <div class="user-details">
+              <p><strong>ID:</strong> 1</p>
+              <p><strong>Nome:</strong> João Silva</p>
+              <p><strong>Email:</strong> joao@email.com</p>
+              <p><strong>Senha:</strong> ********</p>
+              <p><strong>Telefone:</strong> (11) 99999-9999</p>
+              <p><strong>Tipo:</strong> Morador</p>
+            </div>
+          </tr>
+          <tr class="user-row">
+            <td>2</td>
+            <td>Maria Oliveira</td>
+            <td>maria@email.com</td>
+            <td>(11) 98888-8888</td>
+            <td>Síndico</td>
+            <div class="user-details">
+              <p><strong>ID:</strong> 2</p>
+              <p><strong>Nome:</strong> Maria Oliveira</p>
+              <p><strong>Email:</strong> maria@email.com</p>
+              <p><strong>Senha:</strong> ********</p>
+              <p><strong>Telefone:</strong> (11) 98888-8888</p>
+              <p><strong>Tipo:</strong> Síndico</p>
+            </div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

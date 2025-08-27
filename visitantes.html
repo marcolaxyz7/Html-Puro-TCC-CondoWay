@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CondoWay - Visitantes</title>
+  <link rel="stylesheet" href="styles2.css">
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    table th, table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    table th {
+      background: #f1f2f6;
+      font-weight: bold;
+      color: #2f3640;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>CondoWay</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="usuarios.html">Usuários</a></li>
+      <li><a href="apartamentos.html">Apartamentos</a></li>
+      <li><a href="reservas.html">Reservas</a></li>
+      <li><a href="visitantes.html">Visitantes</a></li>
+      <li><a href="encomendas.html">Encomendas</a></li>
+      <li><a href="notificacoes.html">Notificações</a></li>
+      <li><a href="mensagens.html">Mensagens</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Visitantes</h1>
+      <div class="user-info">
+        <span>Síndico</span>
+        <img src="https://via.placeholder.com/35" alt="User">
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Controle de Visitantes</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Documento</th>
+            <th>Apartamento</th>
+            <th>Data de Entrada</th>
+            <th>Data de Saída</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>401</td>
+            <td>Carlos Pereira</td>
+            <td>111.222.333-44</td>
+            <td>201</td>
+            <td>26/08/2025 14:00</td>
+            <td>26/08/2025 18:30</td>
+          </tr>
+          <tr>
+            <td>402</td>
+            <td>Ana Costa</td>
+            <td>555.666.777-88</td>
+            <td>305</td>
+            <td>26/08/2025 10:00</td>
+            <td>26/08/2025 11:45</td>
+          </tr>
+          <tr>
+            <td>403</td>
+            <td>Ricardo Lima</td>
+            <td>999.888.777-66</td>
+            <td>102</td>
+            <td>25/08/2025 19:30</td>
+            <td>25/08/2025 22:00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

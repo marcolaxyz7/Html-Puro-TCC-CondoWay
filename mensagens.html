@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CondoWay - Mensagens</title>
+<link rel="stylesheet" href="styles2.css">
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 15px;
+  }
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  th {
+    background: #f1f2f6;
+    font-weight: bold;
+    color: #2f3640;
+  }
+  button {
+    padding: 6px 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .responder-btn { background: #00a8ff; color: #fff; }
+  .respondido-btn { background: #4cd137; color: #fff; }
+  .edit-btn { background: #fbc531; color: #fff; }
+
+  .resposta-box {
+    position: fixed;
+    bottom: 0;
+    left: 250px; /* sidebar width */
+    right: 0;
+    background: #f1f2f6;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    border-top: 2px solid #dcdde1;
+  }
+  .resposta-box textarea {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: none;
+  }
+  .resposta-box button {
+    margin-left: 10px;
+    background: #00a8ff;
+    color: white;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <h2>CondoWay</h2>
+  <ul>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="usuarios.html">Usuários</a></li>
+    <li><a href="apartamentos.html">Apartamentos</a></li>
+    <li><a href="reservas.html">Reservas</a></li>
+    <li><a href="visitantes.html">Visitantes</a></li>
+    <li><a href="encomendas.html">Encomendas</a></li>
+    <li><a href="notificacoes.html">Notificações</a></li>
+    <li><a href="mensagens.html">Mensagens</a></li>
+  </ul>
+</div>
+
+<div class="main">
+  <div class="header">
+    <h1>Mensagens</h1>
+    <div class="user-info">
+      <span>Síndico</span>
+      <img src="https://via.placeholder.com/35" alt="User">
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>Caixa de Mensagens</h2>
+
+    <table id="mensagensTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuário</th>
+          <th>Mensagem</th>
+          <th>Resposta do Síndico</th>
+          <th>Status / Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>João</td>
+          <td>Boa noite, gostaria de saber sobre a manutenção da garagem.</td>
+          <td>-</td>
+          <td>
+            <button class="responder-btn" onclick="selecionarMensagem(this)">Responder</button>
+            <button class="edit-btn" onclick="editarResposta(this)">Editar</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Maria</td>
+          <td>Poderia verificar a luz do corredor do 3º andar?</td>
+          <td>-</td>
+          <td>
+            <button class="responder-btn" onclick="selecionarMensagem(this)">Responder</button>
+            <button class="edit-btn" onclick="editarResposta(this)">Editar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="resposta-box">
+  <textarea id="respostaTexto" rows="2" placeholder="Digite a resposta..."></textarea>
+  <button onclick="enviarResposta()">Enviar</button>
+</div>
+
+<script>
+let rowSelecionada = null;
+
+function selecionarMensagem(button) {
+  rowSelecionada = button.closest("tr");
+  document.getElementById("respostaTexto").value = "";
+  document.getElementById("respostaTexto").focus();
+}
+
+function editarResposta(button) {
+  const row = button.closest("tr");
+  const respostaAtual = row.cells[3].innerText === '-' ? '' : row.cells[3].innerText;
+  document.getElementById("respostaTexto").value = respostaAtual;
+  rowSelecionada = row;
+  document.getElementById("respostaTexto").focus();
+}
+
+function enviarResposta() {
+  const resposta = document.getElementById("respostaTexto").value.trim();
+  if (resposta === "") {
+    alert("❌ Digite uma resposta antes de enviar.");
+    return;
+  }
+  if (rowSelecionada) {
+    rowSelecionada.cells[3].innerText = resposta;
+    rowSelecionada.cells[4].innerHTML = `
+      <button class="respondido-btn" disabled>Respondido</button>
+      <button class="edit-btn" onclick="editarResposta(this)">Editar</button>
+    `;
+    document.getElementById("respostaTexto").value = "";
+    rowSelecionada = null;
+    alert("✅ Resposta enviada!");
+  } else {
+    alert("Selecione uma mensagem primeiro clicando em 'Responder' ou 'Editar'.");
+  }
+}
+</script>
+</body>
+</html>

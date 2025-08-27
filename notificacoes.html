@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CondoWay - Notificações</title>
+  <link rel="stylesheet" href="styles2.css">
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f1f2f6;
+      font-weight: bold;
+      color: #2f3640;
+    }
+
+    button {
+      padding: 6px 12px;
+      margin: 2px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .edit-btn { background: #00a8ff; color: #fff; }
+    .save-btn { background: #4cd137; color: #fff; }
+    .cancel-btn { background: #e84118; color: #fff; }
+    .add-btn { background: #9c88ff; color: #fff; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>CondoWay</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="usuarios.html">Usuários</a></li>
+      <li><a href="apartamentos.html">Apartamentos</a></li>
+      <li><a href="reservas.html">Reservas</a></li>
+      <li><a href="visitantes.html">Visitantes</a></li>
+      <li><a href="encomendas.html">Encomendas</a></li>
+      <li><a href="notificacoes.html">Notificações</a></li>
+      <li><a href="mensagens.html">Mensagens</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Notificações</h1>
+      <div class="user-info">
+        <span>Síndico</span>
+        <img src="https://via.placeholder.com/35" alt="User">
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Controle de Notificações</h2>
+
+      <button class="add-btn" onclick="addNotificacao()">+ Adicionar Notificação</button>
+
+      <table id="notificacoesTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Mensagem</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>101</td>
+            <td>Manutenção</td>
+            <td>A manutenção da piscina sera realizada amanha.</td>
+            <td>26/08/2025</td>
+            <td><button class="edit-btn" onclick="editRow(this)">Editar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Correção básica de português (substitui abreviações/erros comuns)
+    function corrigirTexto(texto) {
+      const correcoes = {
+        "vc": "você",
+        "pq": "porque",
+        "naum": "não",
+        "aki": "aqui",
+        "amanha": "amanhã",
+        "sera": "será"
+      };
+
+      let corrigido = texto;
+      for (const errado in correcoes) {
+        const regex = new RegExp("\\b" + errado + "\\b", "gi");
+        corrigido = corrigido.replace(regex, correcoes[errado]);
+      }
+      return corrigido;
+    }
+
+    function editRow(button) {
+      const row = button.closest("tr");
+      const cells = row.querySelectorAll("td");
+
+      for (let i = 1; i < cells.length - 1; i++) {
+        const currentValue = cells[i].innerText;
+        cells[i].setAttribute("data-old-value", currentValue);
+        cells[i].innerHTML = `<input type="text" value="${currentValue}" style="width:100%; padding:5px;">`;
+      }
+
+      row.querySelector("td:last-child").innerHTML = `
+        <button class="save-btn" onclick="saveRow(this)">Salvar</button>
+        <button class="cancel-btn" onclick="cancelEdit(this)">Cancelar</button>
+      `;
+    }
+
+    function saveRow(button) {
+      const row = button.closest("tr");
+      const cells = row.querySelectorAll("td");
+
+      for (let i = 1; i < cells.length - 1; i++) {
+        const input = cells[i].querySelector("input");
+        if (input) {
+          cells[i].innerText = corrigirTexto(input.value);
+        }
+      }
+
+      row.querySelector("td:last-child").innerHTML = `
+        <button class="edit-btn" onclick="editRow(this)">Editar</button>
+      `;
+
+      alert("✅ Notificação salva e corrigida.");
+    }
+
+    function cancelEdit(button) {
+      const row = button.closest("tr");
+      const cells = row.querySelectorAll("td");
+
+      for (let i = 1; i < cells.length - 1; i++) {
+        const oldValue = cells[i].getAttribute("data-old-value");
+        cells[i].innerText = oldValue;
+      }
+
+      row.querySelector("td:last-child").innerHTML = `
+        <button class="edit-btn" onclick="editRow(this)">Editar</button>
+      `;
+    }
+
+    function addNotificacao() {
+      const table = document.getElementById("notificacoesTable").querySelector("tbody");
+      const newRow = document.createElement("tr");
+
+      newRow.innerHTML = `
+        <td>Novo</td>
+        <td><input type="text" placeholder="Título"></td>
+        <td><input type="text" placeholder="Mensagem"></td>
+        <td><input type="text" placeholder="Data"></td>
+        <td>
+          <button class="save-btn" onclick="saveNewRow(this)">Salvar</button>
+          <button class="cancel-btn" onclick="cancelNewRow(this)">Cancelar</button>
+        </td>
+      `;
+
+      table.appendChild(newRow);
+    }
+
+    function saveNewRow(button) {
+      const row = button.closest("tr");
+      const cells = row.querySelectorAll("td");
+
+      cells[0].innerText = Math.floor(Math.random() * 1000) + 200;
+
+      for (let i = 1; i < cells.length - 1; i++) {
+        const input = cells[i].querySelector("input");
+        if (input) {
+          cells[i].innerText = corrigirTexto(input.value || "-");
+        }
+      }
+
+      row.querySelector("td:last-child").innerHTML = `
+        <button class="edit-btn" onclick="editRow(this)">Editar</button>
+      `;
+
+      alert("🔔 Nova notificação adicionada com correção.");
+    }
+
+    function cancelNewRow(button) {
+      const row = button.closest("tr");
+      row.remove();
+    }
+  </script>
+</body>
+</html>
