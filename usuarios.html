@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="styles2.css">
 
   <style>
-    /* Estilo da tabela */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -16,52 +15,81 @@
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-
     table th, table td {
       padding: 15px;
       text-align: left;
       border-bottom: 1px solid #eee;
     }
-
     table th {
       background: #f1f2f6;
       font-weight: bold;
       color: #2f3640;
     }
 
-    /* Tooltip de detalhes */
-    .user-row {
-      position: relative;
+    .add-user-btn {
+      display: inline-block;
+      margin: 15px 0;
+      padding: 10px 20px;
+      background: #2ed573;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .add-user-btn:hover { background: #27ae60; }
+
+    .edit-btn {
+      padding: 6px 12px;
+      background: #1e90ff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
+    .edit-btn:hover { background: #0057b7; }
 
-    .user-details {
+    /* Modal */
+    .modal {
       display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 300px;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
       background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      z-index: 10;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-
-    .user-row:hover .user-details {
-      display: block;
+    .modal-content h3 { margin-top: 0; }
+    .modal-content input, .modal-content select {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-
-    .user-details p {
-      margin: 5px 0;
-      font-size: 14px;
-      color: #2f3640;
+    .modal-content button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
     }
+    .btn-save { background: #2ed573; color: #fff; }
+    .btn-cancel { background: #ff4757; color: #fff; margin-left: 10px; }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
   <div class="sidebar">
     <h2>CondoWay</h2>
     <ul>
@@ -76,7 +104,6 @@
     </ul>
   </div>
 
-  <!-- Main -->
   <div class="main">
     <div class="header">
       <h1>Usuários</h1>
@@ -88,7 +115,9 @@
 
     <div class="content">
       <h2>Lista de Usuários</h2>
-      <table>
+      <button class="add-user-btn" onclick="openModal()">+ Adicionar Usuário</button>
+
+      <table id="userTable">
         <thead>
           <tr>
             <th>ID</th>
@@ -96,42 +125,130 @@
             <th>Email</th>
             <th>Telefone</th>
             <th>Tipo</th>
+            <th>Senha</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="user-row">
+          <tr>
             <td>1</td>
             <td>João Silva</td>
             <td>joao@email.com</td>
             <td>(11) 99999-9999</td>
             <td>Morador</td>
-            <div class="user-details">
-              <p><strong>ID:</strong> 1</p>
-              <p><strong>Nome:</strong> João Silva</p>
-              <p><strong>Email:</strong> joao@email.com</p>
-              <p><strong>Senha:</strong> ********</p>
-              <p><strong>Telefone:</strong> (11) 99999-9999</p>
-              <p><strong>Tipo:</strong> Morador</p>
-            </div>
+            <td data-password="123456">********</td>
+            <td><button class="edit-btn" onclick="editUser(this)">Editar</button></td>
           </tr>
-          <tr class="user-row">
+          <tr>
             <td>2</td>
             <td>Maria Oliveira</td>
             <td>maria@email.com</td>
             <td>(11) 98888-8888</td>
             <td>Síndico</td>
-            <div class="user-details">
-              <p><strong>ID:</strong> 2</p>
-              <p><strong>Nome:</strong> Maria Oliveira</p>
-              <p><strong>Email:</strong> maria@email.com</p>
-              <p><strong>Senha:</strong> ********</p>
-              <p><strong>Telefone:</strong> (11) 98888-8888</p>
-              <p><strong>Tipo:</strong> Síndico</p>
-            </div>
+            <td data-password="senha123">********</td>
+            <td><button class="edit-btn" onclick="editUser(this)">Editar</button></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal" id="addUserModal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Novo Usuário</h3>
+      <input type="hidden" id="editingRow">
+      <input type="text" id="userNome" placeholder="Nome" required>
+      <input type="email" id="userEmail" placeholder="Email" required>
+      <input type="text" id="userTelefone" placeholder="Telefone" maxlength="15" required>
+      <input type="password" id="userSenha" placeholder="Senha" required>
+      <select id="userTipo">
+        <option value="Morador">Morador</option>
+        <option value="Síndico">Síndico</option>
+      </select>
+      <button class="btn-save" onclick="saveUser()">Salvar</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <script>
+    let userId = 3; // começa após os usuários fixos
+
+    function openModal(edit = false) {
+      document.getElementById('addUserModal').style.display = 'flex';
+      document.getElementById('modalTitle').innerText = edit ? "Editar Usuário" : "Novo Usuário";
+    }
+    function closeModal() {
+      document.getElementById('addUserModal').style.display = 'none';
+      document.getElementById('editingRow').value = "";
+      document.getElementById('userNome').value = "";
+      document.getElementById('userEmail').value = "";
+      document.getElementById('userTelefone').value = "";
+      document.getElementById('userSenha').value = "";
+      document.getElementById('userTipo').value = "Morador";
+    }
+
+    function saveUser() {
+      let nome = document.getElementById('userNome').value;
+      let email = document.getElementById('userEmail').value;
+      let telefone = document.getElementById('userTelefone').value;
+      let senha = document.getElementById('userSenha').value;
+      let tipo = document.getElementById('userTipo').value;
+      let rowIndex = document.getElementById('editingRow').value;
+
+      if (!nome || !email || !telefone || !senha) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      if (rowIndex) {
+        // edição
+        let row = document.getElementById('userTable').rows[rowIndex];
+        row.cells[1].innerText = nome;
+        row.cells[2].innerText = email;
+        row.cells[3].innerText = telefone;
+        row.cells[4].innerText = tipo;
+        row.cells[5].setAttribute("data-password", senha);
+        row.cells[5].innerText = "********";
+      } else {
+        // novo
+        let table = document.getElementById("userTable").getElementsByTagName('tbody')[0];
+        let newRow = table.insertRow();
+        newRow.innerHTML = `
+          <td>${userId++}</td>
+          <td>${nome}</td>
+          <td>${email}</td>
+          <td>${telefone}</td>
+          <td>${tipo}</td>
+          <td data-password="${senha}">********</td>
+          <td><button class="edit-btn" onclick="editUser(this)">Editar</button></td>
+        `;
+      }
+
+      closeModal();
+    }
+
+    function editUser(button) {
+      let row = button.parentElement.parentElement;
+      document.getElementById('editingRow').value = row.rowIndex;
+      document.getElementById('userNome').value = row.cells[1].innerText;
+      document.getElementById('userEmail').value = row.cells[2].innerText;
+      document.getElementById('userTelefone').value = row.cells[3].innerText;
+      document.getElementById('userTipo').value = row.cells[4].innerText;
+      document.getElementById('userSenha').value = row.cells[5].getAttribute("data-password");
+      openModal(true);
+    }
+
+    // formata telefone (XX) XXXXX-XXXX
+    document.getElementById("userTelefone").addEventListener("input", function(e) {
+      let v = e.target.value.replace(/\D/g, "");
+      if (v.length > 10) {
+        v = v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, "($1) $2-$3");
+      } else {
+        v = v.replace(/^(\d{2})(\d{0,4})(\d{0,4}).*/, "($1) $2-$3");
+      }
+      e.target.value = v;
+    });
+  </script>
 </body>
 </html>
